@@ -1,0 +1,10 @@
+flutter build apk --release --no-sound-null-safety
+
+hcv-app.jks  // contraseña // 328462
+
+--no-sound-null-safety
+
+cambiar icono: flutter pub run flutter_launcher_icons:main
+
+Para Android para cambiar nombre de app:
+Dentro del archivo AndroidManifest.xml, ubicado en: “/android/app/main/AndroidManifest.xml” debes cambiar el valor de la propiedad “android:label”, que se encuentra en la etiqueta <application>.
