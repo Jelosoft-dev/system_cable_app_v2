@@ -15,7 +15,7 @@ class _AboutPageState extends State<AboutPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          nombreApp,
+          SettingsApp[app_sucursal]!['name'] as String,
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: SettingsApp[app_sucursal]!['PrimaryColor'] as Color,

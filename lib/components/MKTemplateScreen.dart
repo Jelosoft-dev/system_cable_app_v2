@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tv_cable/components/settings.dart'; 
 import 'package:tv_cable/components/list_view_drawer.dart';
 import 'package:tv_cable/controllers/servicios_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tv_cable/models/auth.dart';
 import 'package:tv_cable/views/login.dart';
@@ -66,7 +65,7 @@ class _MKTemplateScreenState extends State<MKTemplateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.title ?? nombreApp,
+          widget.title ?? SettingsApp[app_sucursal]!['name'] as String,
           style: TextStyle(color: Colors.white),
         ),
         leading: widget.leading,
