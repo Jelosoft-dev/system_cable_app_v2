@@ -51,7 +51,7 @@ class ListViewDrawer extends StatelessWidget {
               )),
         ),
         const Divider(),
-        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_VISITA'))
+        if (PERMISOS.any((permiso) => permiso.descripcion == 'MENU_VISITA')) ...[
           ListTile(
             title: const Text(
               'Visitas',
@@ -62,8 +62,9 @@ class ListViewDrawer extends StatelessWidget {
               builder: (BuildContext context) => PantallaVisitaList(),
             )),
           ),
-        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION'))
-          ListTile(
+        ],
+          
+        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION')) ListTile(
             title: const Text(
               'Facturación',
               style: TextStyle(fontSize: 16.0),
@@ -73,8 +74,7 @@ class ListViewDrawer extends StatelessWidget {
               builder: (BuildContext context) => const PantallaClientesList(),
             )),
           ),
-        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION'))
-          ListTile(
+        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION')) ListTile(
             title: const Text(
               'Facturas',
               style: TextStyle(fontSize: 16.0),
@@ -84,8 +84,7 @@ class ListViewDrawer extends StatelessWidget {
               builder: (BuildContext context) => const PantallaVentasList(),
             )),
           ),
-        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION'))
-          ListTile(
+        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION')) ListTile(
             title: const Text(
               'Mis Facturas',
               style: TextStyle(fontSize: 16.0),
@@ -95,8 +94,8 @@ class ListViewDrawer extends StatelessWidget {
               builder: (BuildContext context) => const PantallaVentasMyList(),
             )),
           ),
-        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION'))
-          ListTile(
+        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_ATENCION_CLIENTE') 
+        && PERMISOS.any((permiso) => permiso.descripcion == 'MENU_TRABAJO')) ListTile(
             title: const Text(
               'Trabajos',
               style: TextStyle(fontSize: 16.0),
@@ -106,8 +105,7 @@ class ListViewDrawer extends StatelessWidget {
               builder: (BuildContext context) => const PantallaTrabajosList(),
             )),
           ),
-        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION'))
-        ListTile(
+        if(PERMISOS.any((permiso) => permiso.descripcion == 'MENU_FACTURACION')) ListTile(
           title: const Text(
             'Reportes',
             style: TextStyle(fontSize: 16.0),

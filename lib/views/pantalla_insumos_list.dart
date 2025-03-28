@@ -86,7 +86,7 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
 
     int deuda_mes_pendiente = 0;
     if(_ultimoPago.mes != null && _ultimoPago.mes! > 0){
-        deuda_mes_pendiente = _ultimoPago.deuda!;
+        deuda_mes_pendiente = _ultimoPago.deuda ?? 0;
         if(DateTime(_ultimoPago.anho!, _ultimoPago.mes!, 1).compareTo(fecha_ultimo_pago) > 0){
             fecha_ultimo_pago = DateTime(_ultimoPago.anho!, _ultimoPago.mes!, 1);
         }
@@ -96,7 +96,7 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
 
     DateTime fecha_pago_sgte = DateTime(_fecha_ultimo_pago_actual!.year, _fecha_ultimo_pago_actual!.month, _fecha_ultimo_pago_actual!.day);
     if(deuda_mes_pendiente == 0 && !es_primer_pago){
-        _fecha_pago_sgte = DateTime(fecha_pago_sgte.year, fecha_pago_sgte.month, fecha_pago_sgte.day);
+        _fecha_pago_sgte = sumarMes(DateTime(fecha_pago_sgte.year, fecha_pago_sgte.month, fecha_pago_sgte.day), 1);
     }else{
         _fecha_pago_sgte = fecha_pago_sgte;
     }
@@ -213,7 +213,7 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
           DetailText( texto: 'LOCALIDAD: ' + _conexion.localidad!.nombre!, fuente: 15.0, ),
           DetailText( texto: 'Tipo de cliente: '+ConexionModel.TipoConexion(_conexion.tipo!), fuente: 15.0, ),
           DetailText( texto: 'DEUDA ANTERIOR DE: ' + f.format(DetallesPago.DEUDA_PENDIENTE), fuente: 15.0, ),
-          DetailText( texto: (DetallesPago.ES_PRIMER_PAGO ? 'PRIMER PAGO: ' : 'ÚLTIMO PAGO') + DetallesPago.ULTIMO_PAGO, fuente: 15.0, ),
+          DetailText( texto: (DetallesPago.ES_PRIMER_PAGO ? 'PRIMER PAGO: ' : 'ÚLTIMO PAGO: ') + DetallesPago.ULTIMO_PAGO, fuente: 15.0, ),
           DetailText( texto: 'PENDIENTE POR EL MES: ' + f.format(DetallesPago.DEUDA_MES_PENDIENTE), fuente: 15.0, ),
           DetailText( texto: 'CUOTA: ' + f.format(DetallesPago.CUOTA_CLIENTE), fuente: 15.0, ),
         ],
@@ -234,7 +234,8 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
 
   void asignarArticulo() {
     // Si es mensualidad validar que se este pagando por esta fecha y sumar 1 mes más a setFechaPagoSgte
-    int precio = _detalleInsumo.id! < 13 ? DetallesPago.CUOTA_CLIENTE : _detalleInsumo.precio_min!;
+    // int precio = _detalleInsumo.id! < 13 ? DetallesPago.CUOTA_CLIENTE : _detalleInsumo.precio_min!;
+    int precio = _detalleInsumo.precio_min!;
 
     if(_detalleInsumo.tipo == TipoInsumo.MENSUALIDAD){
       if(_fecha_pago_sgte == null){
@@ -260,7 +261,7 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
       }else if(_fecha_ultimo_pago_actual!.compareTo(_fecha_pago_sgte!) == 0 && DetallesPago.DEUDA_MES_PENDIENTE > 0){
           precio = DetallesPago.DEUDA_MES_PENDIENTE;
       }
-      _fecha_pago_sgte = DateTime(_fecha_pago_sgte!.year, _fecha_pago_sgte!.month + 1, _fecha_pago_sgte!.day); 
+      _fecha_pago_sgte = sumarMes(DateTime(_fecha_pago_sgte!.year, _fecha_pago_sgte!.month, _fecha_pago_sgte!.day), 1); 
     }
 
     if(double.parse(_detalleInsumo.stock!) > 0 || _detalleInsumo.tipo != TipoInsumo.ARTICULO){
@@ -295,6 +296,9 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
           titulo: "Año de pago",
           content: MKInputNumber(
             controller: _anhoController,
+            onChanged:  (value) {
+              _AnhoPago = int.parse(value != '' ? value.replaceAll('.', '') : '0');
+            },
             icon: Icons.date_range,
             validator: MKInputNumberValidator.REQUERIDO
           ),
@@ -306,7 +310,7 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
       if(TipoInsumo.ID_PAGO_PARCIAL.indexWhere((item) => item == _detalleInsumo.id) >= 0){
         modalPrecioAPagar(DetallesPago.DEUDA_MES_PENDIENTE);
       }else{
-        asignarArticulo();
+        modalPrecioAPagar(DetallesPago.CUOTA_CLIENTE);
       }
     } 
   }
@@ -402,10 +406,10 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
         }
     }
 
-    if(_listaCarro.length == 0){
+    if(_listaCarro.length == 0 && DetallesPago.DEUDA_MES_PENDIENTE > 0){
         _fecha_pago_sgte = DateTime(ultimo_pago!.year, ultimo_pago.month, 1);
     }else{
-        _fecha_pago_sgte = DateTime(ultimo_pago!.year, ultimo_pago.month +1, 1);
+        _fecha_pago_sgte = sumarMes(DateTime(ultimo_pago!.year, ultimo_pago.month, 1), 1);
     }
   }
 
@@ -550,6 +554,7 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
       floatingFunction: filtrosDialog,
       floating_tooltip : 'Filtrar',
       body: MKListView(
+        searchController : controller,
         onSearchTextChanged : onSearchTextChanged,
         stream: _insumosBloc.insumosListStream, 
         onRefresh: _actualizar, 

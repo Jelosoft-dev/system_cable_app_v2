@@ -16,7 +16,7 @@ dynamic mostrarAlerta(String mensaje, String tipo) {
       msg: mensaje,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
+      timeInSecForIosWeb: 3,
       backgroundColor: TipoAlerta[tipo],
       textColor: Colors.white,
       fontSize: 16.0);

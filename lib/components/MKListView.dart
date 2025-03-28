@@ -9,8 +9,7 @@ class MKListView extends StatelessWidget {
   final Widget? Function(Object, dynamic) contenido;
   final Function(String) onSearchTextChanged;
   final Future<void> Function() onRefresh;
-
-  TextEditingController controller = TextEditingController();
+  final TextEditingController searchController;
 
   MKListView({
     Key? key,
@@ -18,13 +17,14 @@ class MKListView extends StatelessWidget {
     required this.contenido,
     required this.onRefresh,
     required this.onSearchTextChanged,
+    required this.searchController,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        MKSearch(controller: controller,onSearchTextChanged: onSearchTextChanged,),
+        MKSearch(controller: searchController, onSearchTextChanged: onSearchTextChanged,),
         Expanded(
           child: StreamBuilder<List<dynamic>>(
             stream: stream,

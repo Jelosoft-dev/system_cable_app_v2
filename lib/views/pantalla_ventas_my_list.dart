@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:tv_cable/components/MKCircularProgress.dart';
 import 'package:tv_cable/components/MKLoader.dart';
 import 'package:tv_cable/components/settings.dart'; 
 import 'package:tv_cable/bloc/ventas_bloc.dart';
@@ -29,6 +30,7 @@ class _PantallaVentasMyListState extends State<PantallaVentasMyList> {
   ServiciosController servicioCtrl = ServiciosController();
 
   NumberFormat f = NumberFormat("#,##0", "es_AR");
+  int? _loadingPDF = 0;
 
 
   Future<void> _actualizar() async {
@@ -53,11 +55,13 @@ class _PantallaVentasMyListState extends State<PantallaVentasMyList> {
   }
 
   Future<void> downloadAndOpenPdf(int? id, String tipodoc) async {
+    setState(() { _loadingPDF = id!; });
     Map<String, dynamic> params = {
       'id' : id.toString(),
       'rptName' : tipodoc == TipoDocumento.FACTURA ? 'Ventas/Factura_PDFReport' : 'Ventas/Ticket_Cobrador_PDFReport',
     };
     await JasperReport.generar_reporte("api/reportes/ventas/comprobante/factura", "comprobante_${id.toString()}", params: params);
+    setState(() { _loadingPDF = 0; });
   }
 
   Widget _itemBuilder(data, index){
@@ -78,16 +82,14 @@ class _PantallaVentasMyListState extends State<PantallaVentasMyList> {
                       const Padding(padding: EdgeInsets.only(left: 5.0)),
                       DetailText(texto: 'COD. CONEXIÓN: '+f.format((data.idconexion ?? '0')),fuente: 15.0),
                       const Padding(padding: EdgeInsets.only(left: 0.0)),
-                      if(data.tipodoc == TipoDocumento.TICKET)
-                        ...[
-                          IconButton(
-                            onPressed: () {
+                      (_loadingPDF! > 0 && _loadingPDF == data.id) ? MKCircularProgress()// Cambia al color que desees  
+                        :IconButton(
+                          onPressed: () {
+                            if(_loadingPDF == 0)
                               downloadAndOpenPdf(data.id, data.tipodoc);
-                            },
-                            icon: Icon(Icons.print, color: SettingsApp[app_sucursal]!['PrimaryColor'] as Color, size: 28.0),
-                          )
-                        ]
-                      
+                          },
+                          icon: Icon(Icons.print, color: SettingsApp[app_sucursal]!['PrimaryColor'] as Color, size: 28.0),
+                        ) 
                     ],
                   ),
                   const Padding(padding: EdgeInsets.only(top: 0.0),),
@@ -102,6 +104,7 @@ class _PantallaVentasMyListState extends State<PantallaVentasMyList> {
     return MKTemplateScreen(
       title: 'Mis Facturas',
       body: MKListView(
+        searchController : controller,
         onSearchTextChanged : onSearchTextChanged,
         stream: _ventasBloc.ventasListStream, 
         onRefresh: _actualizar, 

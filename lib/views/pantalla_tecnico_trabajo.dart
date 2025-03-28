@@ -140,6 +140,7 @@ class _PantallaTecnicoTrabajoState extends State<PantallaTecnicoTrabajo> {
       title: "Lista de Técnicos",
       actions: _actions(),
       body:  MKListView(
+        searchController : controller,
         onSearchTextChanged : onSearchTextChanged,
         stream: _trabajoBloc.tecnicosListStream, 
         onRefresh: _actualizar, 

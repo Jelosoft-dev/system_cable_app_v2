@@ -151,6 +151,7 @@ class _PantallaVisitaListState extends State<PantallaVisitaList> {
   Widget build(BuildContext context) {
     return MKTemplateScreen(
       body: MKListView(
+        searchController : controller,
         onSearchTextChanged : onSearchTextChanged,
         stream: _visitasBloc.visitasListStream, 
         onRefresh: _actualizar, 

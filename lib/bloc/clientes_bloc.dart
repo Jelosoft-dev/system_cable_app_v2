@@ -59,17 +59,11 @@ class ClientesBloc {
       _clientesListStreamController.add(clientesList);
     } else {
       // Dividir por espacio en blanco
-      List<String> filtros = text.toUpperCase().split(' ');
-      // for (var registro in clientesList) {
-      //   if (registro.razonsocial!.toUpperCase().contains(text.toUpperCase())) {
-      //     filterList.add(registro);
-      //   }
-      // }
-      filterList = clientesList.where((conexion) {
-        // Verificar si algún filtro coincide con el nombre del cliente
-        return filtros.any(
-            (filtro) => conexion.cliente!.razonsocial!.toUpperCase().contains(filtro));
-      }).toList();
+      for (var registro in clientesList) {
+        if (registro.cliente!.razonsocial!.toUpperCase().contains(text.toUpperCase())) {
+          filterList.add(registro);
+        }
+      }
       //Actualiza el registro de oferta que a su vez es escuchado por el stream que actualiza la UI
       _clientesListStreamController.add(filterList);
     }

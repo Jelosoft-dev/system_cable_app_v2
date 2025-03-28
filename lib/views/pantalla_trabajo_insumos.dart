@@ -224,6 +224,7 @@ class _PantallaTrabajoInsumoState extends State<PantallaTrabajoInsumo> {
       title: "Lista de Items",
       actions: _actions(),
       body:  MKListView(
+        searchController : controller,
         onSearchTextChanged : onSearchTextChanged,
         stream: _insumosBloc.insumosListStream, 
         onRefresh: _actualizar, 

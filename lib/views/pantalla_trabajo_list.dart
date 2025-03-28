@@ -102,6 +102,7 @@ class _PantallaTrabajosListState extends State<PantallaTrabajosList> {
     return MKTemplateScreen(
       title: "Lista de Trabajos",
       body: MKListView(
+        searchController : controller,
         onSearchTextChanged : onSearchTextChanged,
         stream: _trabajosBloc.trabajosListStream, 
         onRefresh: _actualizar, 

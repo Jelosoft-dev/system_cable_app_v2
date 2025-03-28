@@ -69,7 +69,7 @@ class _PantallaClientesListState extends State<PantallaClientesList> {
   }
   
   void setearCliente() async {  
-    if(_clienteFacturar.estado != EstadoConexion.CORTE){
+    if(_clienteFacturar.estado == EstadoConexion.ACTIVO){
       _ultimoPago = await _clientesBloc.obtenerUltimosPagos(_clienteFacturar.id);
 
       Navigator.of(context).push(
@@ -137,6 +137,7 @@ class _PantallaClientesListState extends State<PantallaClientesList> {
     return MKTemplateScreen(
       title: 'Lista de Clientes',
       body: MKListView(
+        searchController : controller,
         onSearchTextChanged : onSearchTextChanged,
         stream: _clientesBloc.clientesListStream, 
         onRefresh: _actualizar, 

@@ -104,7 +104,9 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
 
     VentaModel instancia = await _ventasBloc.save(cabecera, _cart);
     
-    Navigator.of(context, rootNavigator: true).pop(context);
+    Future.delayed(const Duration(milliseconds: 1), () {
+      Navigator.of(context, rootNavigator: true).pop(context);
+    });
 
     if (instancia.id != null && instancia.id! > 0) {
       // openFile( url: servicioCtrl.reportURL +  "newTicketCobradorpdf.php?idventa=" + instancia.id.toString(), fileName: 'factura.pdf');

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 final SettingsApp = {
   'DESARROLLO': {
     'id': 0,
-    'url': '192.168.100.14:4000',//http://
+    'url': '192.168.100.14:4000',//
     'name': 'System Cable Develop',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -11,7 +11,7 @@ final SettingsApp = {
   },
   'HORQUETA_CV': {
     'id': 0,
-    'url': 'http://147.93.69.11:9000',
+    'url': '147.93.69.11:9000',
     'name': 'Horqueta Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -19,7 +19,7 @@ final SettingsApp = {
   },
   'BELEN_CV': {
     'id': 1,
-    'url': 'https://www.belencv.grupodamoa.com.py',
+    'url': '147.93.69.11:9000',
     'name': 'Belén Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -27,7 +27,7 @@ final SettingsApp = {
   },
   'LORETO_CV': {
     'id': 2,
-    'url': 'https://www.cvl.grupodamoa.com.py',
+    'url': '147.93.69.11:9000',
     'name': 'Loreto Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -35,7 +35,7 @@ final SettingsApp = {
   },
   'TAPIRACUAI_CV': {
     'id': 0,
-    'url': 'https://www.santani.grupodamoa.com.py',
+    'url': '147.93.69.11:9000',
     'name': 'Tapiracuai Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -43,7 +43,7 @@ final SettingsApp = {
   },
   'CACIQUE_CV': {
     'id': 0,
-    'url': 'https://www.chore.grupodamoa.com.py',
+    'url': '147.93.69.11:9000',
     'name': 'Cacique Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -51,7 +51,7 @@ final SettingsApp = {
   },
   'NORTE_CV': {
     'id': 0,
-    'url': 'https://www.sanpedro.grupodamoa.com.py',
+    'url': '147.93.69.11:9000',
     'name': 'Norte Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -59,7 +59,7 @@ final SettingsApp = {
   },
   'YBY_YAU_CV': {
     'id': 0,
-    'url': 'https://www.ycv.grupodamoa.com.py',
+    'url': '147.93.69.11:9000',
     'name': 'Yby Ya`u Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -67,7 +67,7 @@ final SettingsApp = {
   },
   'TACUATI_CV': {
     'id': 0,
-    'url': 'https://www.tacuati.grupodamoa.com.py',
+    'url': '147.93.69.11:9000',
     'name': 'Tacuati Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -85,4 +85,4 @@ final SettingsApp = {
  * 7 = Yby Ya`u Cable Visión
  * 8 = Tacuati Cable Visión
  */
-final app_sucursal = 'HORQUETA_CV';
+final app_sucursal = 'DESARROLLO';

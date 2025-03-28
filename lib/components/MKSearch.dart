@@ -21,12 +21,12 @@ class MKSearch extends StatelessWidget {
           child: ListTile(
             leading: const Icon(Icons.search),
             title: TextField(
-              controller: controller,
+              controller: this.controller,
               decoration: const InputDecoration(
                 hintText: 'Buscar',
                 border: InputBorder.none,
               ),
-              onChanged: onSearchTextChanged,
+              onChanged: this.onSearchTextChanged,
             ),
             trailing: IconButton(
               icon: const Icon(Icons.cancel),

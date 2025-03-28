@@ -3,8 +3,14 @@ import '../components/settings.dart';
 
 class MKLoader extends StatelessWidget {
   final String? message;
+  final double width;
+  final double height;
 
-  const MKLoader({Key? key, this.message}) : super(key: key);
+  const MKLoader({
+    Key? key, 
+    this.message,
+    this.width = 150,
+    this.height = 150,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +20,8 @@ class MKLoader extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           SizedBox(
-            width: 150,
-            height: 150,
+            width: this.width,
+            height: this.height,
             child: CircularProgressIndicator(
               backgroundColor: SettingsApp[app_sucursal]!['PrimaryColor'] as Color,// Cambia al color que desees
             ),

@@ -8,7 +8,7 @@ class UltimoPago {
   int? monto;
   int? pagado;
   int? deuda;
-  int? copiar_historial;
+  bool? copiar_historial;
 
   //Contructor
   UltimoPago({

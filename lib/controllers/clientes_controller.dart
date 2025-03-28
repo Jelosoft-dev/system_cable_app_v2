@@ -16,7 +16,7 @@ class ClientesController {
     await alertException(() async {
       var response = await request("GET", serveURL, 'api/conexion/${id}/historial');
       if (jsonDecode(response['data']) != null)
-        registro = UltimoPago.fromJson(response['data']);
+        registro = UltimoPago.fromJson(jsonDecode(response['data']));
     });
     return registro;
   }
@@ -25,7 +25,7 @@ class ClientesController {
   Future<List<ConexionModel>> getRegistros() async {
     List<ConexionModel> registros = [];
     await alertException(() async {
-      var response = await request("GET", serveURL, 'api/conexion');
+      var response = await request("GET", serveURL, 'api/conexion', params: {"estado" : EstadoConexion.ACTIVO});
       var listado = json.decode(response['data']);
       registros = listado.map<ConexionModel>((registroJson) => ConexionModel.fromJson(registroJson)).toList();
     });
