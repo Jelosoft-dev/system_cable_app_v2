@@ -24,6 +24,7 @@ class DetallesPago{
   static DateTime? FECHA_ULTIMO_PAGO= null;
   static bool ES_PRIMER_PAGO = false;
   static int DEUDA_MES_PENDIENTE = 0;
+  static int DEUDA_MES_PENDIENTE_AUX = 0;
   static String ULTIMO_PAGO = 'S/P';
   static int CUOTA_CLIENTE = 0;
 }
@@ -78,6 +79,7 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
         es_primer_pago = true;
     }else{
         fecha_ultimo_pago = DateTime(_conexion.ultimoPago!.year, _conexion.ultimoPago!.month, 1);
+        _conexion.primerPago = DateTime(_conexion.primerPago!.year, _conexion.primerPago!.month, 1);
         if(_conexion.primerPago!.compareTo(fecha_ultimo_pago) > 0){
           fecha_ultimo_pago = DateTime(_conexion.primerPago!.year, _conexion.primerPago!.month, 1);
           es_primer_pago = true;
@@ -99,11 +101,13 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
         _fecha_pago_sgte = sumarMes(DateTime(fecha_pago_sgte.year, fecha_pago_sgte.month, fecha_pago_sgte.day), 1);
     }else{
         _fecha_pago_sgte = fecha_pago_sgte;
+        deuda_mes_pendiente = 0;
     }
     DetallesPago.DEUDA_PENDIENTE = Conexion_Data.deudaAnterior ?? 0;
     DetallesPago.FECHA_ULTIMO_PAGO = fecha_ultimo_pago;
     DetallesPago.ES_PRIMER_PAGO = es_primer_pago;
     DetallesPago.DEUDA_MES_PENDIENTE = deuda_mes_pendiente;
+    DetallesPago.DEUDA_MES_PENDIENTE_AUX = deuda_mes_pendiente;
     DetallesPago.ULTIMO_PAGO = DateFormat('dd/MM/yyyy').format(fecha_ultimo_pago);
     DetallesPago.CUOTA_CLIENTE = Conexion_Data.cuota ?? 0;
   }
@@ -123,8 +127,8 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
     await _insumosBloc.obtenerRegistros(null);
   }
 
-  onSearchTextChanged(String text) async {
-    await _insumosBloc.filtrarInsumo(text);
+  onSearchTextChanged(String text) {
+    _insumosBloc.filtrarInsumo(text);
     setState(() {});
   }
 
@@ -255,14 +259,17 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
           return;
       }
                                           
-      if(_detalleInsumo.id! < 13 && _fecha_ultimo_pago_actual!.compareTo(_fecha_pago_sgte!) == 0 && DetallesPago.DEUDA_MES_PENDIENTE > 0 ){
+      if(_detalleInsumo.id! < 13 && _fecha_ultimo_pago_actual!.compareTo(_fecha_pago_sgte!) == 0 && DetallesPago.DEUDA_MES_PENDIENTE > 0 && !DetallesPago.ES_PRIMER_PAGO ){
           mostrarAlerta('Error: No puede pagar un pago completo por que el cliente tiene un pago parcial registrado con una deuda pendiente de ${f.format(DetallesPago.DEUDA_MES_PENDIENTE)} ₲.', 'ERROR');
           return;
       }else if(_fecha_ultimo_pago_actual!.compareTo(_fecha_pago_sgte!) == 0 && DetallesPago.DEUDA_MES_PENDIENTE > 0){
-          precio = DetallesPago.DEUDA_MES_PENDIENTE;
+          precio = _detalleInsumo.precio_min!;
+          // precio = DetallesPago.DEUDA_MES_PENDIENTE;
+          DetallesPago.DEUDA_MES_PENDIENTE = DetallesPago.DEUDA_MES_PENDIENTE - precio;
       }
-      _fecha_pago_sgte = sumarMes(DateTime(_fecha_pago_sgte!.year, _fecha_pago_sgte!.month, _fecha_pago_sgte!.day), 1); 
-    }
+      if(DetallesPago.DEUDA_MES_PENDIENTE == 0)
+        _fecha_pago_sgte = sumarMes(DateTime(_fecha_pago_sgte!.year, _fecha_pago_sgte!.month, _fecha_pago_sgte!.day), 1); 
+    } 
 
     if(double.parse(_detalleInsumo.stock!) > 0 || _detalleInsumo.tipo != TipoInsumo.ARTICULO){
       double cantidad = double.parse(_detalleInsumo.stock!) < 1 && _detalleInsumo.tipo == TipoInsumo.ARTICULO ? double.parse(_detalleInsumo.stock!) : 1;
@@ -406,8 +413,14 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
         }
     }
 
-    if(_listaCarro.length == 0 && DetallesPago.DEUDA_MES_PENDIENTE > 0){
+    bool tiene_pago_en_detalle = _listaCarro.any((detail) => 
+      TipoInsumo.ID_PAGOS.contains(detail.idinsumo)
+    );
+
+
+    if(!tiene_pago_en_detalle && (DetallesPago.DEUDA_MES_PENDIENTE > 0 || DetallesPago.ES_PRIMER_PAGO)){
         _fecha_pago_sgte = DateTime(ultimo_pago!.year, ultimo_pago.month, 1);
+        DetallesPago.DEUDA_MES_PENDIENTE = DetallesPago.DEUDA_MES_PENDIENTE_AUX;
     }else{
         _fecha_pago_sgte = sumarMes(DateTime(ultimo_pago!.year, ultimo_pago.month, 1), 1);
     }
@@ -474,6 +487,8 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
                                 modalAnhoPago();
                               }else if(data.id == TipoInsumo.DEUDA_PENDIENTE){
                                 modalPrecioAPagar(DetallesPago.DEUDA_PENDIENTE);
+                              }else if(data.tipo ==  TipoInsumo.SERVICIO){
+                                modalPrecioAPagar(data.precio_min);
                               }else{
                                 asignarArticulo();
                               }

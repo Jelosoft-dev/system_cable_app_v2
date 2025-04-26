@@ -51,23 +51,37 @@ class ClientesBloc {
     cargoDatos = true;
   }
 
-  filtrarRegistro(String text) async {
-    //Filtra las ofertas por los valores del buscador
-    filterList = []; //Lista de las Ofertas filtrada
+  void filtrarRegistro(String text) {
+    filterList = []; // Reiniciamos la lista filtrada
+
     if (text.isEmpty) {
-      //Si es vacio coloca toda las ofertas ya sea si esta clasificada o no
+      // Si el texto está vacío, mostramos la lista completa
       _clientesListStreamController.add(clientesList);
     } else {
-      // Dividir por espacio en blanco
+      // Convertimos la búsqueda a mayúsculas y la separamos en palabras individuales
+      List<String> searchWords = text.toUpperCase().split(" ");
+
       for (var registro in clientesList) {
-        if (registro.cliente!.razonsocial!.toUpperCase().contains(text.toUpperCase())) {
+        // Convertimos razonsocial a mayúsculas y la separamos en palabras
+        String razonsocial = registro.cliente!.razonsocial!.toUpperCase().trim();
+        List<String> razonsocialWords = razonsocial.split(" ");
+
+        // Verificamos si **todas** las palabras de búsqueda están en la razón social (sin importar el orden)
+        bool containsAllWords = searchWords.every((word) =>
+          razonsocialWords.any((razonWord) => razonWord.contains(word))
+        );
+
+        if (containsAllWords) {
           filterList.add(registro);
         }
       }
-      //Actualiza el registro de oferta que a su vez es escuchado por el stream que actualiza la UI
+
+      // Actualizamos la lista filtrada en el stream
       _clientesListStreamController.add(filterList);
+
     }
   }
+
 
   //Dispose para eliminar los recursos utilizados por los Stream
   void dispose() {

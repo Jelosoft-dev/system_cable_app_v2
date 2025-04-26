@@ -29,8 +29,8 @@ class _PantallaVisitaListState extends State<PantallaVisitaList> {
     setState(() {});
   }
 
-  onSearchTextChanged(String text) async {
-    await _visitasBloc.filtrarRegistro(text);
+  onSearchTextChanged(String text){
+    _visitasBloc.filtrarRegistro(text);
     setState(() {});
   }
 

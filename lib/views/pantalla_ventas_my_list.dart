@@ -37,8 +37,8 @@ class _PantallaVentasMyListState extends State<PantallaVentasMyList> {
     await _ventasBloc.obtenerRegistros((await serviceCtrl.readIdUser())!.toString());
   }
 
-  onSearchTextChanged(String text) async {
-    await _ventasBloc.filtrarRegistro(text);
+  onSearchTextChanged(String text){
+    _ventasBloc.filtrarRegistro(text);
     setState(() {});
   }
 

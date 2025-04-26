@@ -45,15 +45,29 @@ class InsumosBloc {
     cargoDatos = true;
   }
 
-  filtrarInsumo(String text) async {
+  void filtrarInsumo(String text) {
     //Filtra las ofertas por los valores del buscador
     filterList2 = []; //Lista de las Ofertas filtrada
     if (text.isEmpty) {
       //Si es vacio coloca toda las ofertas ya sea si esta clasificada o no
       _insumosListStreamController.add(filterList);
     } else {
+      // Convertimos la búsqueda a mayúsculas y la separamos en palabras individuales
+      List<String> searchWords = text.toUpperCase().split(" ");
+      // for (var registro in filterList) {
+      //   if (registro.nombre!.contains(text.toUpperCase())) {
+      //     filterList2.add(registro);
+      //   }
+      // }
       for (var registro in filterList) {
-        if (registro.nombre!.contains(text.toUpperCase())) {
+        // Convertimos razonsocial a mayúsculas y la separamos en palabras
+        String nombre = registro.nombre!.toUpperCase();
+        List<String> nombreWords = nombre.split(" ");
+        // Verificamos si al menos una palabra de búsqueda está en las palabras de la razón social
+        bool containsAnyWord = searchWords.every((word) =>
+          nombreWords.any((nameWord) => nameWord.contains(word))
+        );
+        if (containsAnyWord) {
           filterList2.add(registro);
         }
       }

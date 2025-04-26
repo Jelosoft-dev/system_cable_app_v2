@@ -78,15 +78,29 @@ class TrabajosBloc {
   }
 
 
-  filtrarRegistro(String text) async {
+  void filtrarRegistro(String text) {
     //Filtra las ofertas por los valores del buscador
     filterList = []; //Lista de las Ofertas filtrada
     if (text.isEmpty) {
       //Si es vacio coloca toda las ofertas ya sea si esta clasificada o no
       _trabajosListStreamController.add(trabajosList);
     } else {
+      // for (var registro in trabajosList) {
+      //   if (registro.conexion!.cliente!.razonsocial!.contains(text.toUpperCase())) {
+      //     filterList.add(registro);
+      //   }
+      // }
+      // Convertimos la búsqueda a mayúsculas y la separamos en palabras individuales
+      List<String> searchWords = text.toUpperCase().split(" ");
       for (var registro in trabajosList) {
-        if (registro.conexion!.cliente!.razonsocial!.contains(text.toUpperCase())) {
+        // Convertimos razonsocial a mayúsculas y la separamos en palabras
+        String razonsocial = registro.conexion!.cliente!.razonsocial!.toUpperCase();
+        List<String> razonsocialWords = razonsocial.split(" ");
+        // Verificamos si al menos una palabra de búsqueda está en las palabras de la razón social
+        bool containsAnyWord = searchWords.every((word) =>
+          razonsocialWords.any((razonWord) => razonWord.contains(word))
+        );
+        if (containsAnyWord) {
           filterList.add(registro);
         }
       }

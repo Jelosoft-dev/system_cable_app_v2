@@ -34,8 +34,8 @@ class _PantallaTrabajosListState extends State<PantallaTrabajosList> {
     await _trabajosBloc.obtenerRegistros();
   }
 
-  onSearchTextChanged(String text) async {
-    await _trabajosBloc.filtrarRegistro(text);
+  onSearchTextChanged(String text) {
+    _trabajosBloc.filtrarRegistro(text);
     setState(() {});
   }
 

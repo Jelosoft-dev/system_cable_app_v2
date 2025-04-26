@@ -17,7 +17,7 @@ class LoginController {
       var response = await request("POST", serveURL, 'api/auth/login', body: data);
       print(response['data']);
       jsonResponse = Auth.fromJson(jsonDecode(response['data']));
-    });
+    }, shouldRethrow : false);
     return jsonResponse;
   }
 

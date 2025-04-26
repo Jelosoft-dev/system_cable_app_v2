@@ -325,7 +325,7 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
   }
 
   void _addProduct(int index) {
-      if (_cart[index].tipo == TipoInsumo.ARTICULO && _cart[index].stock! >= (_cart[index].cantidad! + 1)) {
+      if (_cart[index].tipo == TipoInsumo.SERVICIO || (_cart[index].tipo == TipoInsumo.ARTICULO && _cart[index].stock! >= (_cart[index].cantidad! + 1))) {
         setState(() {
           _cart[index].cantidad = _cart[index].cantidad! + 1;
           _cart[index].subtotal = (_cart[index].precio! * _cart[index].cantidad!).round();

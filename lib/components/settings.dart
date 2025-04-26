@@ -9,7 +9,7 @@ final SettingsApp = {
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
   },
-  'HORQUETA_CV': {
+  'system_cable_hcv': {
     'id': 0,
     'url': '147.93.69.11:9000',
     'name': 'Horqueta Cable Visión',
@@ -35,7 +35,7 @@ final SettingsApp = {
   },
   'TAPIRACUAI_CV': {
     'id': 0,
-    'url': '147.93.69.11:9000',
+    'url': '147.93.69.11:9005',
     'name': 'Tapiracuai Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -43,7 +43,7 @@ final SettingsApp = {
   },
   'CACIQUE_CV': {
     'id': 0,
-    'url': '147.93.69.11:9000',
+    'url': '147.93.69.11:9004',
     'name': 'Cacique Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -51,23 +51,23 @@ final SettingsApp = {
   },
   'NORTE_CV': {
     'id': 0,
-    'url': '147.93.69.11:9000',
+    'url': '147.93.69.11:9003',
     'name': 'Norte Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
   },
-  'YBY_YAU_CV': {
+  'system_cable_ycv': {
     'id': 0,
-    'url': '147.93.69.11:9000',
+    'url': '147.93.69.11:9002',
     'name': 'Yby Ya`u Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
   },
-  'TACUATI_CV': {
+  'system_cable_tcv': {
     'id': 0,
-    'url': '147.93.69.11:9000',
+    'url': '147.93.69.11:9001',
     'name': 'Tacuati Cable Visión',
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
@@ -75,14 +75,30 @@ final SettingsApp = {
   }
 };
 /**
- * 0 = Desarrollo
- * 1 = Horqueta Cable Visión
+ * 0 = Desarrollo DESARROLLO
+ * 1 = Horqueta Cable Visión  system_cable_hcv
  * 2 = Belén Cable Visión
  * 3 = Loreto Cable Visión
- * 4 = Tapiracuai Cable Visión
- * 5 = Cacique Cable Visión
- * 6 = Norte Cable Visión
- * 7 = Yby Ya`u Cable Visión
- * 8 = Tacuati Cable Visión
+ * 4 = Tapiracuai Cable Visión TAPIRACUAI_CV: system_cable_scv
+ * 5 = Cacique Cable Visión CACIQUE_CV : system_cable_chcv
+ * 6 = Norte Cable Visión NORTE_CV: system_cable_spcv
+ * 7 = Yby Ya`u Cable Visión system_cable_ycv
+ * 8 = Tacuati Cable Visión system_cable_tcv
  */
-final app_sucursal = 'DESARROLLO';
+final app_sucursal = 'system_cable_tcv';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

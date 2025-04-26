@@ -1,3 +1,8 @@
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:tv_cable/components/MKLoader.dart';
+import 'package:tv_cable/controllers/downloads_update.dart';
+import 'package:tv_cable/components/MKModal.dart';
+
 import '../components/settings.dart';
 import '../components/input_detail_text.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +15,58 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+
+  bool buscandoActualizacion = false;
+  UpdateService updateService = new UpdateService();
+
+
+  void modalActualizarApp(nombre_archivo) async {
+    bool? resultado = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return MKModal(
+          titulo: "Actualización Encontrada.",
+          content: Text("¿Desea actualizar la Aplicación?"),
+        );
+      },
+    );
+
+    if (resultado != null && resultado) {
+      btnText = 'Descargando...';
+      setState(() { });
+      await updateService.downloadAndInstallApk(nombre_archivo);
+      await obtenerVersion();
+    }
+  }
+
+  
+
+  Future<void> verificarActualizaciones() async {
+    var update = await updateService.checkForUpdate();
+    if(update != null 
+        && update.containsKey("existe_actualizacion") 
+        && update.containsKey("nombre_archivo") 
+        && update["existe_actualizacion"]){
+          modalActualizarApp(update["nombre_archivo"]);
+    }
+  }
+
+
+  String appVersion = "";
+  String btnText = 'Buscar Actualización';
+
+  Future<void> obtenerVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    appVersion = "Versión: " + info.version;
+    setState(() { });
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    obtenerVersion();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +99,9 @@ class _AboutPageState extends State<AboutPage> {
                 height: 150,
               ),
             ),
+            DetailText(
+                texto: appVersion, fuente : 13 ),
+            const Padding(padding: EdgeInsets.only(top: 10)),
             const DetailText(
                 texto:
                     'Esta herramienta disponible para Android permite al cobrador registrar el pago de las cuotas de los clientes que están al día y emitir un comprobante de pago de uso interno..'),
@@ -54,6 +114,30 @@ class _AboutPageState extends State<AboutPage> {
                 texto:
                     'Esta aplicación se encuentra en fase de desarrollo, por ende, toda información para la mejora del mismo pueden ser remitidas al correo jelosoft19@gmail.com lo cual será de gran utilidad.'),
             const Padding(padding: EdgeInsets.only(top: 10.0)),
+            
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 50.0,
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              margin: const EdgeInsets.only(top: 15.0),
+              child: ElevatedButton(
+                    onPressed: buscandoActualizacion ? (){} : () async {
+                      buscandoActualizacion = true;
+                      btnText = "Bsucando...";
+                      setState(() { });
+                      await verificarActualizaciones();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueGrey,
+                      elevation: 0.0,
+                      shape:
+                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(25.0)),
+                    ),
+                    child: Text(btnText,
+                        style: TextStyle(color: Colors.white, fontSize: 18)),
+                  ),
+            )
+            
           ],
         ),
       ),

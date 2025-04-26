@@ -41,8 +41,8 @@ class _PantallaClientesListState extends State<PantallaClientesList> {
     }
   }
 
-  onSearchTextChanged(String text) async {
-    await _clientesBloc.filtrarRegistro(text);
+  onSearchTextChanged(String text) {
+    _clientesBloc.filtrarRegistro(text);
     setState(() {});
   }
 

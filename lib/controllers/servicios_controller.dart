@@ -70,6 +70,19 @@ class ServiciosController {
     final value = token;
     prefs.setString(key, value);
   }
+  
+
+  Future<void> refreshToken(headers) async{
+    // Leer el valor del header 'set-cookie'
+    final rawCookie = headers['set-cookie'];
+    if (rawCookie != null) {
+      // Buscar el valor del token
+      final token = RegExp(r'token=([^;]+)').firstMatch(rawCookie)?.group(1);
+      if (token != null) {
+        await save(token);
+      } 
+    }
+  }
 
   //function read
   Future<dynamic> read() async {

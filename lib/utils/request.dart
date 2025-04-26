@@ -89,6 +89,8 @@ dynamic checkStatus(response) {
 
 Future<Map<String, dynamic>> request(String method, String host, String path, {Map<String, dynamic>? params = null, body = null, Map<String, String>? headers}) async {
     var response;
+    ServiciosController serviciosCtrl = ServiciosController();
+
     headers = headers != null
         ? {
             ...headers,
@@ -115,7 +117,7 @@ Future<Map<String, dynamic>> request(String method, String host, String path, {M
     checkStatus(response);
     // Aquí obtienes el cuerpo de la respuesta
     final data = response.body;
-
+    serviciosCtrl.refreshToken(response.headers);
     return {
       'data': data,
       'headers': {}, // Puedes añadir encabezados si es necesario

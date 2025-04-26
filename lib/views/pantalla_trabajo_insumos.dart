@@ -44,8 +44,8 @@ class _PantallaTrabajoInsumoState extends State<PantallaTrabajoInsumo> {
     await _insumosBloc.obtenerRegistros({'tipo':'IS'});
   }
 
-  onSearchTextChanged(String text) async {
-    await _insumosBloc.filtrarInsumo(text);
+  onSearchTextChanged(String text) {
+    _insumosBloc.filtrarInsumo(text);
     setState(() {});
   }
 
