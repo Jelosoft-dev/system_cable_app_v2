@@ -109,7 +109,6 @@ class _PaginaCarritoState extends State<PaginaCarrito> {
     });
 
     if (instancia.id != null && instancia.id! > 0) {
-      // openFile( url: servicioCtrl.reportURL +  "newTicketCobradorpdf.php?idventa=" + instancia.id.toString(), fileName: 'factura.pdf');
       await downloadAndOpenPdf(instancia.id, instancia.tipodoc!);
       Future.delayed(const Duration(milliseconds: 1500), () {
         Navigator.of(context).pushAndRemoveUntil(

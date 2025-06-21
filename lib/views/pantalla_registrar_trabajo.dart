@@ -31,6 +31,7 @@ class _PantallaRegistrarTrabajoState extends State<PantallaRegistrarTrabajo> {
   final TrabajoModel cabecera;
   final List<TrabajoTecnico> listTecnico;
   final List<TrabajoDetalle> listDetalle;
+  List<TextEditingController> _controllers = [];
 
   ServiciosController servicioCtrl = ServiciosController();
   TrabajosBloc trabajoBloc = TrabajosBloc();
@@ -127,7 +128,7 @@ class _PantallaRegistrarTrabajoState extends State<PantallaRegistrarTrabajo> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    const SizedBox(height: 8.0,),
+                                    const SizedBox(width: 8.0), // Cambié de `height` a `width` porque estás en un `Row`
                                     IconButton(
                                       icon: const Icon(Icons.remove),
                                       onPressed: () {
@@ -135,8 +136,32 @@ class _PantallaRegistrarTrabajoState extends State<PantallaRegistrarTrabajo> {
                                       },
                                       color: Colors.yellow,
                                     ),
-                                    Text('${listDetalle[index].cantidad}',
-                                    style: const TextStyle(fontWeight:FontWeight.bold, fontSize: 18.0, color: Colors.white)),
+                                    SizedBox(
+                                      width: 100,
+                                      child: TextField(
+                                        controller: _controllers[index],
+                                        keyboardType: TextInputType.number,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.0,
+                                          color: Colors.white,
+                                        ),
+                                        decoration: const InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                                        ),
+                                        onChanged: (value) {
+                                          final cantidad = int.tryParse(value);
+                                          if (cantidad != null) {
+                                            setState(() {
+                                              listDetalle[index].cantidad = cantidad;
+                                            });
+                                          }
+                                        },
+                                      ),
+                                    ),
                                     IconButton(
                                       icon: const Icon(Icons.add),
                                       onPressed: () {
@@ -144,7 +169,7 @@ class _PantallaRegistrarTrabajoState extends State<PantallaRegistrarTrabajo> {
                                       },
                                       color: Colors.yellow,
                                     ),
-                                    const SizedBox(height: 8.0,)
+                                    const SizedBox(width: 8.0),
                                   ],
                                 ),
                               )
@@ -218,7 +243,25 @@ class _PantallaRegistrarTrabajoState extends State<PantallaRegistrarTrabajo> {
           )));
   }
 
-  
+  @override
+  void initState() {
+    super.initState();
+    _controllers = List.generate(
+      listDetalle.length,
+      (index) => TextEditingController(
+        text: listDetalle[index].cantidad.toString(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MKTemplateScreen(

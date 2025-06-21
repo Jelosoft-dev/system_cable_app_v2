@@ -46,28 +46,38 @@ class UpdateService {
     return false;
   }
 
-  Future<void> downloadAndInstallApk(nombre_archivo) async {
+  Future<void> downloadAndInstallApk(String nombre_archivo, {Function(double)? onProgress}) async {
     final dir = await getExternalStorageDirectory();
-    final apkUrl = UrlRequest.UriURL('api/downloads/aplicacion-movil', params : {"nombre_archivo" : nombre_archivo}).toString();
+    final apkUrl = UrlRequest.UriURL('api/downloads/aplicacion-movil', params: {"nombre_archivo": nombre_archivo}).toString();
     final path = "${dir!.path}/update.apk";
 
     final dio = Dio();
     try {
       await dio.download(
-        apkUrl, 
+        apkUrl,
         path,
+        onReceiveProgress: (received, total) {
+          if (total != -1) {
+            double progress = (received / total) * 100;
+            if (onProgress != null) {
+              onProgress(progress);
+            }
+          }
+        },
         options: Options(
           headers: {
             ...await UrlRequest.Headers(),
           },
-        ),);
+        ),
+      );
     } catch (e) {
       print(e);
     }
 
     if (Platform.isAndroid) {
-      InstallPlugin.installApk(path, appId : 'com.example.tv_cable')
+      InstallPlugin.installApk(path, appId: 'com.example.tv_cable')
           .catchError((e) => print('Error al instalar APK: $e'));
     }
   }
+
 }

@@ -1,3 +1,4 @@
+import 'package:tv_cable/components/MKCircularProgress.dart';
 import 'package:tv_cable/components/MKListView.dart';
 import 'package:tv_cable/components/MKLoader.dart';
 import 'package:tv_cable/components/MKTemplateScreen.dart';
@@ -29,6 +30,7 @@ class _PantallaTrabajosListState extends State<PantallaTrabajosList> {
 
   NumberFormat f = NumberFormat("#,##0", "es_US");
   NumberFormat format_py = NumberFormat("#,##0", "es_AR");
+  int? _loadingPDF = 0;
 
   Future<void> _actualizar() async {
     await _trabajosBloc.obtenerRegistros();
@@ -58,7 +60,6 @@ class _PantallaTrabajosListState extends State<PantallaTrabajosList> {
     };
     await JasperReport.generar_reporte("api/reportes/trabajos/ticket", "trabajo_${id.toString()}", params: params);
   }
-  
 
   Widget _itemBuilder(data, index){
     return Container(
@@ -80,12 +81,14 @@ class _PantallaTrabajosListState extends State<PantallaTrabajosList> {
                       const Padding(padding: EdgeInsets.only(left: 5.0)),
                       DetailText( texto: 'COD.: '+format_py.format(data.id ?? 0), fuente: 15.0),
                       const Padding(padding: EdgeInsets.only(left: 0.0)),
-                      IconButton(
-                        onPressed: () {
-                          downloadAndOpenPdf(data.id);
-                        },
-                        icon: Icon( Icons.print, color: SettingsApp[app_sucursal]!['PrimaryColor'] as Color, size: 28.0,),
-                      )
+                      (_loadingPDF! > 0 && _loadingPDF == data.id) ? MKCircularProgress()// Cambia al color que desees  
+                          :IconButton(
+                            onPressed: () {
+                              if(_loadingPDF == 0)
+                                downloadAndOpenPdf(data.id);
+                            },
+                            icon: Icon(Icons.print, color: SettingsApp[app_sucursal]!['PrimaryColor'] as Color, size: 28.0),
+                          ) 
                     ],
                   ),
                   const Padding(padding: EdgeInsets.only(top: 0.0),),

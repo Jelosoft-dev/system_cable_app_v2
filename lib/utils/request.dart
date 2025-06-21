@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:tv_cable/components/settings.dart';
 import '../controllers/servicios_controller.dart';
 
 // import 'package:cookies/cookies.dart'; // Suponiendo que estás usando un paquete para cookies
@@ -15,12 +16,16 @@ class HTTP{
 class UrlRequest{
   static Uri UriURL(String path, {String host = "", Map<String, dynamic>? params = null}){
     ServiciosController serviciosCtrl = ServiciosController();
-    return Uri.http(host == "" ? serviciosCtrl.serveURL : host, path, params);
+    if(SettingsApp[app_sucursal]!['useHttps'] == false)
+      return Uri.http(host == "" ? serviciosCtrl.serveURL : host, path, params);
+    return Uri.https(host == "" ? serviciosCtrl.serveURL : host, path, params);
   }
 
   static String StringURL(String path, {String host = "", Map<String, dynamic>? params = null}){
     ServiciosController serviciosCtrl = ServiciosController();
-    return Uri.http(host == "" ? serviciosCtrl.serveURL : host, path, params).toString();
+    if(SettingsApp[app_sucursal]!['useHttps'] == false)
+      return Uri.http(host == "" ? serviciosCtrl.serveURL : host, path, params).toString();
+    return Uri.https(host == "" ? serviciosCtrl.serveURL : host, path, params).toString();
   }
 
   static Future<Map<String, String>> Headers() async{

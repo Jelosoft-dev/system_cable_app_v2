@@ -30,8 +30,6 @@ class PantallaReporteList extends StatefulWidget {
 class _PantallaReporteListState extends State<PantallaReporteList> {
 
   List<Reporte> reporteList = [
-    // Reporte(title: 'Gastos / RG90', url: UrlRequest.StringURL('api/reportes/contables/rg-90', params: Parametros.DESDE_HASTA_DEL_DIA)),
-    // Reporte(title : 'Gastos / RG90', url: UrlRequest.StringURL('api/reportes/contables/rg-90', params: Parametros.DESDE_HASTA_DEL_MES)),
     Reporte(
       title : 'Depósito de dinero del día.', 
       fileName : 'Depósito de dinero del día', 

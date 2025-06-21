@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:tv_cable/components/MKCircularProgress.dart';
 import 'package:tv_cable/components/MKDatePicket.dart';
 import 'package:tv_cable/components/MKLoader.dart';
 import 'package:tv_cable/components/MKTemplateScreen.dart';
@@ -8,6 +9,7 @@ import 'package:tv_cable/components/settings.dart';
 import 'package:tv_cable/constants.dart';
 import 'package:tv_cable/controllers/servicios_controller.dart';
 import 'package:tv_cable/models/trabajo.dart';
+import 'package:tv_cable/utils/jasper_report.dart';
 import 'package:tv_cable/utils/mostrar_alerta.dart';
 import 'package:tv_cable/views/pantalla_tecnico_trabajo.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +36,9 @@ class _PantallaTrabajoDetalleState extends State<PantallaTrabajoDetalle> {
 
   TextEditingController obs_controller = TextEditingController();
 
-  NumberFormat f = NumberFormat("#,##0", "es_US");
+  // NumberFormat f = NumberFormat("#,##0", "es_US");
+  NumberFormat f = NumberFormat("#,##0", "es_AR");
+  int? _loadingPDF = 0;
 
   DateTime date_inic = DateTime.now();
   DateTime date_fin = DateTime.now();
@@ -81,49 +85,16 @@ class _PantallaTrabajoDetalleState extends State<PantallaTrabajoDetalle> {
     }
   }
 
-  Future openFile({required String url, String? fileName}) async {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) => MKLoader());
-
-    final name = fileName ?? url.split('/').last;
-    final file = await downloadFile(url + '&user=' + (await servicioCtrl.readNameUser()), name);
-
-    Navigator.of(context, rootNavigator: true).pop(context);
-
-    if (file == null) {
-      return;
-    }
-
-    OpenFile.open(file.path);
+  Future<void> downloadAndOpenPdf(int? id) async {
+    setState(() { _loadingPDF = id!; });
+    Map<String, dynamic> params = {
+      'id' : id.toString(),
+      'rptName' : 'Trabajo/TicketTrabajoCobradorPDFReport',
+    };
+    await JasperReport.generar_reporte("api/reportes/trabajos/ticket", "trabajo_ref_${id.toString()}", params: params);
+    setState(() { _loadingPDF = 0; });
   }
-
-  Future<File?> downloadFile(String url, String name) async {
-    try {
-      final appStorage = await getApplicationDocumentsDirectory();
-      final file = File('${appStorage.path}/$name');
-
-      final response = await Dio().get(
-        url,
-        options: Options(
-          responseType: ResponseType.bytes,
-          followRedirects: false,
-          receiveTimeout: 0,
-        ),
-      );
-
-      final raf = file.openSync(mode: FileMode.write);
-      raf.writeFromSync(response.data);
-      await raf.close();
-
-      return file;
-    } catch (e) {
-      mostrarAlerta("Ocurrió un error al momento de querer descargar el archivo", "ERROR");
-      return null;
-    }
-  }
-
+  
   bool validarCampos() {
     if (fecha_inic.isEmpty) {
       mostrarAlerta('Defina la fecha de inicio.', 'ERROR');
@@ -268,18 +239,19 @@ class _PantallaTrabajoDetalleState extends State<PantallaTrabajoDetalle> {
                 ),
                 Divider(),
                 const Padding(padding: EdgeInsets.only(top: 20.0),),
-                TextButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kPrimaryColor,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 40),
-                  ),
-                  onPressed: () {
-                    openFile(url: servicioCtrl.reportURL +"newTicketTrabajoCobradorpdf.php?idtrabajo=" +this.item!.id.toString(),
-                        fileName: 'trabajo_${this.item?.id}.pdf');
-                  },
-                  child: const Text("Imprimir",style: TextStyle(color: Colors.white, fontSize: 18.0),),
-                ),
+                (_loadingPDF! > 0 && _loadingPDF == this.item?.id) ? MKCircularProgress()// Cambia al color que desees  
+                    :TextButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kPrimaryColor,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12, horizontal: 40),
+                      ),
+                      onPressed: () {
+                        if(_loadingPDF == 0)
+                          downloadAndOpenPdf(this.item?.id);
+                      },
+                      child: const Text("Imprimir",style: TextStyle(color: Colors.white, fontSize: 18.0),),
+                    ),
                 const Padding(padding: EdgeInsets.only(top: 20.0),),
                 if (this.item?.estado == 'P')
                   TextButton(
@@ -289,7 +261,7 @@ class _PantallaTrabajoDetalleState extends State<PantallaTrabajoDetalle> {
                     onPressed: () {
                       registrarTrabajo();
                     },
-                    child: Text("Registrar ",style: TextStyle(color: Colors.white, fontSize: 18.0),),
+                    child: Text("Continuar ",style: TextStyle(color: Colors.white, fontSize: 18.0),),
                   ),
               ],
             )),

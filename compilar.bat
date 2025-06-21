@@ -20,7 +20,8 @@ echo Modificando settings.dart para system_cable_hcv...
 echo =============================
 
 :: Usamos powershell para reemplazar la línea
-powershell -Command "(Get-Content -Raw '%SETTINGS_FILE%') -replace \"final app_sucursal = 'system_cable_hcv';\", \"final app_sucursal = 'system_cable_hcv';\" | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "$content = Get-Content -Raw -Encoding UTF8 '%SETTINGS_FILE%' | ForEach-Object { $_ -replace \"final app_sucursal = '.*?';\", \"final app_sucursal = 'system_cable_hcv';\" }; [System.IO.File]::WriteAllText('%SETTINGS_FILE%', $content, [System.Text.Encoding]::UTF8)"
+
 
 :: PRIMER BUILD - system_cable_hcv
 echo =============================
@@ -43,7 +44,7 @@ echo Modificando settings.dart para system_cable_tcv...
 echo =============================
 
 :: Usamos powershell para reemplazar la línea
-powershell -Command "(Get-Content -Raw '%SETTINGS_FILE%') -replace \"final app_sucursal = 'system_cable_hcv';\", \"final app_sucursal = 'system_cable_tcv';\" | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "$content = Get-Content -Raw -Encoding UTF8 '%SETTINGS_FILE%' | ForEach-Object { $_ -replace \"final app_sucursal = '.*?';\", \"final app_sucursal = 'system_cable_tcv';\" }; [System.IO.File]::WriteAllText('%SETTINGS_FILE%', $content, [System.Text.Encoding]::UTF8)"
 
 :: SEGUNDO BUILD - system_cable_tcv
 echo =============================
@@ -66,7 +67,7 @@ echo Modificando settings.dart para system_cable_ycv...
 echo =============================
 
 :: Usamos powershell para reemplazar la línea
-powershell -Command "(Get-Content -Raw '%SETTINGS_FILE%') -replace \"final app_sucursal = 'system_cable_hcv';\", \"final app_sucursal = 'system_cable_ycv';\" | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "$content = Get-Content -Raw -Encoding UTF8 '%SETTINGS_FILE%' | ForEach-Object { $_ -replace \"final app_sucursal = '.*?';\", \"final app_sucursal = 'system_cable_ycv';\" }; [System.IO.File]::WriteAllText('%SETTINGS_FILE%', $content, [System.Text.Encoding]::UTF8)"
 
 :: TERCER BUILD - system_cable_ycv
 echo =============================
@@ -89,7 +90,7 @@ echo Modificando settings.dart para system_cable_spcv...
 echo =============================
 
 :: Usamos powershell para reemplazar la línea
-powershell -Command "(Get-Content -Raw '%SETTINGS_FILE%') -replace \"final app_sucursal = 'system_cable_hcv';\", \"final app_sucursal = 'system_cable_spcv';\" | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "$content = Get-Content -Raw -Encoding UTF8 '%SETTINGS_FILE%' | ForEach-Object { $_ -replace \"final app_sucursal = '.*?';\", \"final app_sucursal = 'system_cable_spcv';\" }; [System.IO.File]::WriteAllText('%SETTINGS_FILE%', $content, [System.Text.Encoding]::UTF8)"
 
 :: CUARTO BUILD - system_cable_spcv
 echo =============================
@@ -112,7 +113,7 @@ echo Modificando settings.dart para system_cable_chcv...
 echo =============================
 
 :: Usamos powershell para reemplazar la línea
-powershell -Command "(Get-Content -Raw '%SETTINGS_FILE%') -replace \"final app_sucursal = 'system_cable_hcv';\", \"final app_sucursal = 'system_cable_chcv';\" | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "$content = Get-Content -Raw -Encoding UTF8 '%SETTINGS_FILE%' | ForEach-Object { $_ -replace \"final app_sucursal = '.*?';\", \"final app_sucursal = 'system_cable_chcv';\" }; [System.IO.File]::WriteAllText('%SETTINGS_FILE%', $content, [System.Text.Encoding]::UTF8)"
 
 :: QUINTO BUILD - system_cable_chcv
 echo =============================
@@ -136,7 +137,7 @@ echo Modificando settings.dart para system_cable_scv...
 echo =============================
 
 :: Usamos powershell para reemplazar la línea
-powershell -Command "(Get-Content -Raw '%SETTINGS_FILE%') -replace \"final app_sucursal = 'system_cable_hcv';\", \"final app_sucursal = 'system_cable_scv';\" | Set-Content '%SETTINGS_FILE%'"
+powershell -Command "$content = Get-Content -Raw -Encoding UTF8 '%SETTINGS_FILE%' | ForEach-Object { $_ -replace \"final app_sucursal = '.*?';\", \"final app_sucursal = 'system_cable_scv';\" }; [System.IO.File]::WriteAllText('%SETTINGS_FILE%', $content, [System.Text.Encoding]::UTF8)"
 
 :: SEXTO BUILD - system_cable_scv
 echo =============================

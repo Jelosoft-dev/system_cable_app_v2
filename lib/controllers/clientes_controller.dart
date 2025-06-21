@@ -25,7 +25,7 @@ class ClientesController {
   Future<List<ConexionModel>> getRegistros() async {
     List<ConexionModel> registros = [];
     await alertException(() async {
-      var response = await request("GET", serveURL, 'api/conexion', params: {"estado" : EstadoConexion.ACTIVO});
+      var response = await request("GET", serveURL, 'api/conexion/app', params: {"estado" : EstadoConexion.ACTIVO});
       var listado = json.decode(response['data']);
       registros = listado.map<ConexionModel>((registroJson) => ConexionModel.fromJson(registroJson)).toList();
     });

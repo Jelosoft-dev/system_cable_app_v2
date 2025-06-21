@@ -2,6 +2,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:tv_cable/components/MKLoader.dart';
 import 'package:tv_cable/controllers/downloads_update.dart';
 import 'package:tv_cable/components/MKModal.dart';
+import 'package:tv_cable/utils/mostrar_alerta.dart';
 
 import '../components/settings.dart';
 import '../components/input_detail_text.dart';
@@ -32,22 +33,37 @@ class _AboutPageState extends State<AboutPage> {
     );
 
     if (resultado != null && resultado) {
-      btnText = 'Descargando...';
-      setState(() { });
-      await updateService.downloadAndInstallApk(nombre_archivo);
+      setState(() {
+        btnText = 'Descargando... 0%';
+      });
+
+      await updateService.downloadAndInstallApk(
+        nombre_archivo,
+        onProgress: (progress) {
+          setState(() {
+            btnText = 'Descargando... ${progress.toStringAsFixed(0)}%';
+          });
+        },
+      );
+
       await obtenerVersion();
     }
   }
+
 
   
 
   Future<void> verificarActualizaciones() async {
     var update = await updateService.checkForUpdate();
-    if(update != null 
+    if(update != null && update != false 
         && update.containsKey("existe_actualizacion") 
         && update.containsKey("nombre_archivo") 
         && update["existe_actualizacion"]){
           modalActualizarApp(update["nombre_archivo"]);
+    }else{
+      mostrarAlerta("Ya tienes la versión más nueva.", "SUCCESS");
+      btnText = 'Buscar Actualización';
+      setState(() { });
     }
   }
 
@@ -123,7 +139,7 @@ class _AboutPageState extends State<AboutPage> {
               child: ElevatedButton(
                     onPressed: buscandoActualizacion ? (){} : () async {
                       buscandoActualizacion = true;
-                      btnText = "Bsucando...";
+                      btnText = "Buscando...";
                       setState(() { });
                       await verificarActualizaciones();
                     },
