@@ -33,32 +33,38 @@ class _PantallaReporteListState extends State<PantallaReporteList> {
     Reporte(
       title : 'Depósito de dinero del día.', 
       fileName : 'Depósito de dinero del día', 
+      rptName : '',
       url: 'api/reportes/gerenciales/deposito-de-dinero', 
       params: Parametros.DESDE_HASTA_DEL_DIA),
     Reporte(
       title : 'Depósito de dinero del mes.', 
       fileName : 'Deposito_de_dinero_del_mes', 
+      rptName : '',
       url: 'api/reportes/gerenciales/deposito-de-dinero', 
       params: Parametros.DESDE_HASTA_DEL_MES),
     Reporte(
       title : 'Utilidad del día.', 
       fileName : 'Utilidad_del_día.', 
+      rptName : '',
       url: 'api/reportes/gerenciales/utilidad', 
       params: Parametros.DESDE_HASTA_DEL_DIA),
     Reporte(
       title : 'Utilidad del mes.', 
       fileName : 'Utilidad_del_mes', 
+      rptName : '',
       url: 'api/reportes/gerenciales/utilidad', 
       params: Parametros.DESDE_HASTA_DEL_MES),
     Reporte(
       title : 'Comprobantes emitidos en el día.', 
       fileName : 'Comprobantes_emitidos_en_el_día', 
+      rptName : 'Ventas/Factura_Emitidas_PDFReport',
       url: 'api/reportes/ventas/comprobante/emitidos', 
       params: Parametros.DESDE_HASTA_DEL_DIA),
     Reporte(
       title : 'Comprobantes emitidos en el mes.', 
       fileName : 'Comprobantes_emitidos_en_el_mes', 
       url: 'api/reportes/ventas/comprobante/emitidos', 
+      rptName : 'Ventas/Factura_Emitidas_PDFReport',
       params: Parametros.DESDE_HASTA_DEL_MES),
   ];
 

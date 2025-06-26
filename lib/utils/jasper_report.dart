@@ -49,7 +49,7 @@ class JasperReport{
 
   
 
-  static Future<String> view_reporte(String path, String fileName, {String format = "pdf", Map<String, dynamic>? params, Map<String, String>? headers}) async {
+  static Future<String> view_reporte(String path, String fileName, String rptName, {String format = "pdf", Map<String, dynamic>? params, Map<String, String>? headers}) async {
     try {
 
       headers = headers != null
@@ -63,6 +63,7 @@ class JasperReport{
       params ??= {};
       // Agregar el formato al mapa de parámetros
       params["format"] = format;
+      params["rptName"] = rptName;
 
       // Descargar el PDF
       final response = await http.get(UrlRequest.UriURL(path, params : params),headers: headers,);      

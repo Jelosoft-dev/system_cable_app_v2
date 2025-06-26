@@ -20,7 +20,7 @@ class _PantallaViewPdfState extends State<PantallaViewPdf> {
   String filePath = "";
 
   void loadDocument() async {
-    String path = await JasperReport.view_reporte(reporte.url, reporte.fileName, params: reporte.params);
+    String path = await JasperReport.view_reporte(reporte.url, reporte.fileName, reporte.rptName, params: reporte.params);
     setState(() {
       filePath = path;
     });

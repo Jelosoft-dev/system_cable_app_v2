@@ -101,7 +101,9 @@ class _PantallaInsumosListState extends State<PantallaInsumosList> {
         _fecha_pago_sgte = sumarMes(DateTime(fecha_pago_sgte.year, fecha_pago_sgte.month, fecha_pago_sgte.day), 1);
     }else{
         _fecha_pago_sgte = fecha_pago_sgte;
-        deuda_mes_pendiente = 0;
+        if(es_primer_pago){
+          deuda_mes_pendiente = 0;
+        }
     }
     DetallesPago.DEUDA_PENDIENTE = Conexion_Data.deudaAnterior ?? 0;
     DetallesPago.FECHA_ULTIMO_PAGO = fecha_ultimo_pago;

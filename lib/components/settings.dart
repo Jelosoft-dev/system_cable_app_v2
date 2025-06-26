@@ -17,7 +17,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   },
   'BELEN_CV': {
     'id': 1,
@@ -26,7 +26,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   },
   'LORETO_CV': {
     'id': 2,
@@ -35,7 +35,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   },
   'system_cable_scv': {
     'id': 0,
@@ -44,7 +44,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   },
   'system_cable_chcv': {
     'id': 0,
@@ -53,7 +53,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   },
   'system_cable_spcv': {
     'id': 0,
@@ -62,7 +62,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   },
   'system_cable_ycv': {
     'id': 0,
@@ -71,7 +71,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   },
   'system_cable_tcv': {
     'id': 0,
@@ -80,7 +80,7 @@ final SettingsApp = {
     'logo': 'assets/logo_damoa.png',
     'PrimaryColor': Colors.indigo,
     'PrimaryLightColor': Colors.lightBlue,
-    'useHttps' : false,
+    'useHttps' : true,
   }
 };
 /**

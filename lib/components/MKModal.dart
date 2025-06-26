@@ -33,25 +33,25 @@ class MKModal extends StatelessWidget {
             Navigator.of(context).pop(true); // Cerrar diálogo y pasar true
           },
         ),
-        ElevatedButton(
-          child: const Text(
-            "Cancelar",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-            elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
-            ),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop(false); // Cerrar diálogo y pasar false
-          },
-        ),
+        // ElevatedButton(
+        //   child: const Text(
+        //     "Cancelar",
+        //     style: TextStyle(
+        //       color: Colors.white,
+        //       fontSize: 18.0,
+        //     ),
+        //   ),
+        //   style: ElevatedButton.styleFrom(
+        //     backgroundColor: Colors.red,
+        //     elevation: 0.0,
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(25.0),
+        //     ),
+        //   ),
+        //   onPressed: () {
+        //     Navigator.of(context).pop(false); // Cerrar diálogo y pasar false
+        //   },
+        // ),
       ],
     );
   }
